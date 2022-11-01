@@ -16,15 +16,15 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="​    得分点 Redis5种数据结构 标准回答 Redis主要提供了5种数据结构：字符串(string)、哈希(hash)、列表(list)、集合(set)、有序集合(zset)。Redis还提供了Bitmap、HyperLogLog、Geo类型,但这些类型都是基于上述核心数据类型实现的。一个key对应一个value。  字符串( string)：可以存储字符串、数字和二进制数据,除了值可以是">
+    <meta name="description" content="得分点 ：乐观锁、悲观锁定义及使用场景  乐观锁：乐观锁总是假设最好的情况,每次去拿数据的时候都认为别人不会修改,所以不会上锁,但是在更新的时候会判断一下在此期间别人有没有去更新这个数据,可以使用版本号机制和CAS算法实现。乐观锁适用于多读的应用类型,这样可以提高吞吐量。 使用场景：   GIT,SVN,CVS等代码版本控制管理器,就是一个乐观锁使用很好的场景,例如：A、B程序员,同时从SVN服务">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Redis的数据类型">
-<meta property="og:url" content="http://example.com/2022/10/31/Redis%E7%9A%84%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B/index.html">
+<meta property="og:title" content="说说乐观锁和悲观锁">
+<meta property="og:url" content="http://example.com/2022/11/01/%E8%AF%B4%E8%AF%B4%E4%B9%90%E8%A7%82%E9%94%81%E5%92%8C%E6%82%B2%E8%A7%82%E9%94%81/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="​    得分点 Redis5种数据结构 标准回答 Redis主要提供了5种数据结构：字符串(string)、哈希(hash)、列表(list)、集合(set)、有序集合(zset)。Redis还提供了Bitmap、HyperLogLog、Geo类型,但这些类型都是基于上述核心数据类型实现的。一个key对应一个value。  字符串( string)：可以存储字符串、数字和二进制数据,除了值可以是">
+<meta property="og:description" content="得分点 ：乐观锁、悲观锁定义及使用场景  乐观锁：乐观锁总是假设最好的情况,每次去拿数据的时候都认为别人不会修改,所以不会上锁,但是在更新的时候会判断一下在此期间别人有没有去更新这个数据,可以使用版本号机制和CAS算法实现。乐观锁适用于多读的应用类型,这样可以提高吞吐量。 使用场景：   GIT,SVN,CVS等代码版本控制管理器,就是一个乐观锁使用很好的场景,例如：A、B程序员,同时从SVN服务">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2022-10-31T13:36:40.000Z">
-<meta property="article:modified_time" content="2022-11-01T14:03:34.045Z">
+<meta property="article:published_time" content="2022-11-01T12:49:37.000Z">
+<meta property="article:modified_time" content="2022-11-01T14:02:25.809Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Redis">
 <meta property="article:tag" content="java">
@@ -32,7 +32,7 @@
   
   
   
-  <title>Redis的数据类型 - Hexo</title>
+  <title>说说乐观锁和悲观锁 - Hexo</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -197,7 +197,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Redis的数据类型"></span>
+            <span id="subtitle" data-typed-text="说说乐观锁和悲观锁"></span>
           
         </div>
 
@@ -208,8 +208,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2022-10-31 21:36" pubdate>
-          2022年10月31日 晚上
+        <time datetime="2022-11-01 20:49" pubdate>
+          2022年11月1日 晚上
         </time>
       </span>
     
@@ -220,7 +220,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          487 字
+          610 字
         
       </span>
     
@@ -231,7 +231,7 @@
         
         
         
-          5 分钟
+          6 分钟
         
       </span>
     
@@ -269,18 +269,25 @@
         <div id="board">
           <article class="post-content mx-auto">
             <!-- SEO header -->
-            <h1 style="display: none">Redis的数据类型</h1>
+            <h1 style="display: none">说说乐观锁和悲观锁</h1>
             
             
               <div class="markdown-body">
                 
-                <p>​    得分点 Redis5种数据结构 标准回答 Redis主要提供了5种数据结构：字符串(string)、哈希(hash)、列表(list)、集合(set)、有序集合(zset)。Redis还提供了Bitmap、HyperLogLog、Geo类型,但这些类型都是基于上述核心数据类型实现的。一个key对应一个value。</p>
+                <p>得分点 ：乐观锁、悲观锁定义及使用场景</p>
 <ol>
-<li>字符串( string)：可以存储字符串、数字和二进制数据,除了值可以是String以外,所有的键也可以是string,string最大可以存储大小为2M的数据。String结构底层是一个简单动态字符串，支持扩容，存储字符串。</li>
-<li>列表(list)：存储线性有序且可重复的元素，底层数据结构可以是双向链表/压缩列表。相当于一个数组。</li>
-<li>哈希(hash)：存储的是键值对，底层是ziplist和hash。一个大key对应多个小key。</li>
-<li>集合(set)：无序不可重复，底层结构分为inset和HashTable两种。</li>
-<li>有序集合(zset) ：有序不可重复，通过给每个元素设置一个分数来作为排序的依据，底层结构为ziplist和skiplist。为每个元素加了一个score属性（权重）。</li>
+<li><p>乐观锁：乐观锁总是假设最好的情况,每次去拿数据的时候都认为别人不会修改,所以不会上锁,但是在更新的时候会判断一下在此期间别人有没有去更新这个数据,可以使用版本号机制和CAS算法实现。乐观锁适用于多读的应用类型,这样可以提高吞吐量。</p>
+<p>使用场景：</p>
+<ul>
+<li> GIT,SVN,CVS等代码版本控制管理器,就是一个乐观锁使用很好的场景,例如：A、B程序员,同时从SVN服务器上下载了code.html文件,当A完成提交后,此时B再提交,那么会报版本冲突,此时需要B进行版本处理合并后,再提交到服务器。这其实就是乐观锁的实现全过程。如果此时使用的是悲观锁,那么意味者所有程序员都必须一个一个等待操作提交完,才能访问文件,这是难以接受的。</li>
+</ul>
+</li>
+<li><p>悲观锁：悲观锁总是假设最坏的情况,每次去拿数据的时候都认为别人会修改,所以每次在拿数据的时候都会上锁,这样别人想拿这个数据就会阻塞直到它拿到锁（共享资源每次只给一个线程使用,其它线程阻塞,用完后再把资源转让给其它线程）。传统的关系型数据库里边就用到了很多这种锁机制,比如行锁,表锁等,读锁,写锁等,都是在做操作之前先上锁。</p>
+<p>使用场景：</p>
+<ul>
+<li>悲观锁的好处在于可以减少并发,但是当并发量非常大的时候,由于锁消耗资源、锁定时间过长等原因,很容易导致系统性能下降,资源消耗严重。因此一般我们可以在并发量不是很大,并且出现并发情况导致的异常用户和系统都很难以接受的情况下,会选择悲观锁进行。</li>
+</ul>
+</li>
 </ol>
 
                 
@@ -329,8 +336,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Redis的数据类型</div>
-      <div>http://example.com/2022/10/31/Redis的数据类型/</div>
+      <div>说说乐观锁和悲观锁</div>
+      <div>http://example.com/2022/11/01/说说乐观锁和悲观锁/</div>
     </div>
     <div class="license-meta">
       
@@ -342,7 +349,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2022年10月31日</div>
+          <div>2022年11月1日</div>
         </div>
       
       
@@ -374,9 +381,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2022/11/01/%E8%AF%B4%E8%AF%B4Redis%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E7%AD%96%E7%95%A5/" title="说说Redis的持久化策略">
+                      <a href="/2022/11/01/%E8%AF%B4%E8%AF%B4%E7%BC%93%E5%AD%98%E7%A9%BF%E9%80%8F%E3%80%81%E5%87%BB%E7%A9%BF%E3%80%81%E9%9B%AA%E5%B4%A9%E7%9A%84%E5%8C%BA%E5%88%AB/" title="说说缓存穿透、击穿、雪崩的区别">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">说说Redis的持久化策略</span>
+                        <span class="hidden-mobile">说说缓存穿透、击穿、雪崩的区别</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -384,8 +391,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2022/10/31/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2/" title="第一个博客">
-                        <span class="hidden-mobile">第一个博客</span>
+                      <a href="/2022/11/01/%E8%AF%B4%E8%AF%B4Redis%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E7%AD%96%E7%95%A5/" title="说说Redis的持久化策略">
+                        <span class="hidden-mobile">说说Redis的持久化策略</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
